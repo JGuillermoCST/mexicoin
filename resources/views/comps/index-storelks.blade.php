@@ -1,6 +1,10 @@
+<!-- Sección: Comprar por Tipo de Producto -->
 <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-indio-oscuro text-center mb-10">Comprar por Tipo de Producto</h2>
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800 uppercase tracking-tight text-center mb-10">
+      Comprar por Tipo de Producto
+    </h2>
+    <div class="mt-2 h-1 w-24 bg-gradient-to-r from-sky-400 to-blue-500 mx-auto rounded-full"></div>
 
             <div class="grid gap-6 grid-cols-2 lg:grid-cols-4">
                 @foreach ([

@@ -1,7 +1,8 @@
 <x-guest-layout>
-    @include('comps.gen-liveprices')
+    
 
     @include('comps.index-hero')
+    @include('comps.gen-liveprices')
     {{-- @include('comps.index-feats') --}}
     @include('comps.index-storelks')
 
