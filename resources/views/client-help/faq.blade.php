@@ -15,7 +15,7 @@
       @foreach([
         ['q' => '¿Cómo sé que mis monedas o billetes son auténticos?', 'a' => 'Todos nuestros productos son verificados y certificados antes de ponerse a la venta. Nos especializamos en artículos genuinos y garantizados.'],
         ['q' => '¿Qué métodos de pago aceptan?', 'a' => 'Aceptamos transferencias bancarias y próximamente pagos con MercadoPago, Clip y PayPal.'],
-        ['q' => '¿Hacen envíos a toda la República Mexicana?', 'a' => 'Sí, realizamos envíos a todo México mediante DHL, Estafeta y FedEx, con número de rastreo.'],
+        ['q' => '¿Hacen envíos a toda la República Mexicana?', 'a' => 'Sí, realizamos envíos a todo México mediante DHL, Estafeta, UPS y FedEx, con número de rastreo.'],
         ['q' => '¿Puedo devolver un producto si no estoy satisfecho?', 'a' => 'Sí, puedes devolverlo en los primeros 7 días si está en las mismas condiciones. Contáctanos para iniciar el proceso.'],
         ['q' => '¿Tienen tienda física?', 'a' => 'Por el momento solo operamos en línea, pero planeamos abrir una tienda física en el futuro.']
       ] as $i => $faq)

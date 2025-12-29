@@ -11,13 +11,13 @@
           Contáctanos
         </h2>
         <p class="text-gray-600 mt-2 max-w-2xl mx-auto">
-          Estamos disponibles para atenderte en nuestras sucursales o por teléfono.  
-          También puedes enviarnos un mensaje directamente desde aquí.
+          Estamos disponibles para atenderte por <a href="" class="text-green-500 font-bold hover:text-green-700 hover:border-green-700 hover:border-b-2">Whatsapp</a>.  
+          También puedes enviarnos un mensaje directamente al correo soporte@mexicoin.com.mx.
         </p>
       </div>
 
       <!-- Información de contacto -->
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
+      {{-- <div class="grid md:grid-cols-2 gap-8 mb-12">
         <!-- Sucursal Monterrey -->
         <div class="bg-white/70 backdrop-blur-md rounded-2xl border border-white/40 shadow-md p-6 hover:shadow-lg transition">
           <h3 class="text-xl font-semibold text-gray-800 mb-4">Sucursal Monterrey</h3>
@@ -33,7 +33,7 @@
           <p class="text-gray-600">Tel: (55) 9876 5432</p>
           <p class="text-gray-600">Email: contacto@empresa.com</p>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Formulario de contacto -->
       <div class="bg-white/80 backdrop-blur-lg rounded-2xl border border-white/50 shadow-xl p-10 max-w-3xl mx-auto">

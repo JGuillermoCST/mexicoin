@@ -9,7 +9,7 @@
 
   <a href="#" class="block w-11/12 md:w-9/12 mx-auto rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-200/60 transition-shadow duration-300">
     <img 
-      src="{{ asset('assets/oferta-mon.jpg') }}" 
+      src="{{ asset('assets/banners/promos/'. $banner->image) }}" 
       alt="Oferta en promoción"
       class="w-full object-cover rounded-2xl select-none pointer-events-none"
     >

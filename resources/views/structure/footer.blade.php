@@ -25,9 +25,9 @@
       <div>
         <h3 class="text-yellow-500 font-semibold mb-3 uppercase tracking-wider">Soporte</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="hover:text-yellow-500 transition">Contáctanos</a></li>
-          <li><a href="#" class="hover:text-yellow-500 transition">Guías de cuidado</a></li>
-          <li><a href="#" class="hover:text-yellow-500 transition">Pagos y envíos</a></li>
+          <li><a href="{{ route('contact') }}" class="hover:text-yellow-500 transition">Contáctanos</a></li>
+          <li><a href="{{ route('policies') }}" class="hover:text-yellow-500 transition">Políticas</a></li>
+          <li><a href="{{ route('faq') }}" class="hover:text-yellow-500 transition">FAQ</a></li>
         </ul>
       </div>
     </div>
@@ -62,8 +62,8 @@
               <p class="text-xs text-gray-400">Para nuestros clientes</p>
             </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
 
       <!-- Métodos de pago -->
       <div class="pt-3">

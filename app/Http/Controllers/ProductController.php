@@ -22,6 +22,14 @@ class ProductController extends Controller {
         return view('store.detail', compact('product', 'category', 'images'));
     }
 
+    public function edit($id) {
+        $user = auth()->user();
+        $categories = Category::all(); // Fetch all categories for the dropdown
+        $product = Product::findOrFail($id); // Fetch all products for display
+        $prices = (new PriceController())->prices(); // Fetch prices if needed
+        return view('admin.prod-edit', compact('user', 'categories', 'product', 'prices'));
+    }
+
     public function displayCollections() { return view('collections'); }
 
     public function displayGold() {
@@ -53,76 +61,99 @@ class ProductController extends Controller {
         return view('admin.products', compact('user', 'categories', 'products', 'prices'));
     }
 
+    public function featuredProducts() {
+        $products = Product::where('is_featured', true)->get();
+        return view('store.featured', compact('products'));
+    }
+
     public function save(Request $request) {
 
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'price' => 'required|numeric|min:0',
-        //     'category' => 'required|numeric|min:0',
-        //     'image' => 'string|nullable|min:4', // Assuming image is a string path
-        //     'stock' => 'required|integer|min:1',
-        // ]);  
-
-        $product = new Product();
-        $product->name = $request->input('name');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->category_id = $request->input('category');
-        // $product->image = $request->input('image'); // Assuming image is a string path
-        $product->stock = $request->input('stock');
-        $product->multiplier = $request->input('multiplier', 1.0); // Default to 1.0 if not provided
-        $product->coin_base = $request->input('coin_base', 0.0); // Default to 0.0 if not provided
-        $product->coin_base_type = $request->input('coin_base_type', 'other'); // Default to 'other' if not provided
-
-        $product->save(); // Save the product to the database
-        $data = $product;
-
-        if($request->hasFile("image")){
-
-            $imagen = $request->file("image");                        
-            $nombreimagen = $imagen->getClientOriginalName();
-            $nombreimagen = 'producto_'.$product->id.'_main_'.$nombreimagen;
-            $ruta = public_path("assets/products/mains/");            
-            copy($imagen->getRealPath(),$ruta.$nombreimagen);
-            $product->image = $nombreimagen;
-        }
-
-        $product->save();
-
-        if($request->hasFile('images')) {
-            $allowedfileExtension=['jpg','jpeg','png'];
-
-            foreach ($request->images as $photo) {
-                    $filename = $photo->getClientOriginalName();
-                    $filename = 'producto_'.$product->id.'_imagen'.$filename;
-                    //$imagen = $request->file("image");                   
-                    $ruta = public_path("assets/products/supports/");            
-                    copy($photo->getRealPath(),$ruta.$filename);
-
-                    ProductImage::create([
-                        'product_id' => $product->id,
-                        'filename' => $filename
-                    ]);
-                }
-        }
+        $product = $this->saveNewProductData($request);
+        $this->saveProductImage($request, $product);
+        $this->saveProductImageList($request, $product);
 
         return redirect()->route('admin-products')->with('success', 'Product updated successfully.');
     }
 
     public function update(Request $request, $id) {
-        // Logic to update an existing product
-        // Validate and update the product data
-        return redirect()->route('admin-products')->with('success', 'Product updated successfully.');
+
+        $product = $this->saveUpdatedProductData($request, $id);
+        $this->saveProductImage($request, $product);
+        $this->saveProductImageList($request, $product);
+
+        return redirect()->route('admin-products.edit', ['id' => $product['id']])->with('success', 'Product updated successfully.');
     }
 
     public function destroy($id) {
-        // Logic to delete a product
 
         $product = Product::findOrFail($id);
         $product->delete();  // Delete the product from the database
 
-        // Find the product by ID and delete it
         return redirect()->route('admin-products')->with('success', 'Product deleted successfully.');
+    }
+
+    private function saveProductImage($request, $product) {
+        if($request->hasFile("image")){
+
+            $imagen = $request->file("image");                        
+            $nombreimagen = $imagen->getClientOriginalName();
+            $nombreimagen = 'producto_main_'.$nombreimagen;
+            $ruta = public_path("assets/products/mains/");  
+            //$ruta = "/home3/josegui5/public_html/mexicoin/public/assets/products/mains/";          
+            copy($imagen->getRealPath(),$ruta.$nombreimagen);
+            $product->image = $nombreimagen;
+        }
+
+        $product->save();
+    }
+
+    private function saveProductImageList($request, $product) {
+        if($request->hasFile('images')) {
+            foreach ($request->images as $photo) {
+                $filename = $photo->getClientOriginalName();
+                $filename = 'producto_img_list'.$filename;
+                //$imagen = $request->file("image");                   
+                $ruta = public_path("assets/products/supports/");   
+                //$ruta = "/home3/josegui5/public_html/mexicoin/public/assets/products/supports/";            
+                copy($photo->getRealPath(),$ruta.$filename);
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'filename' => $filename
+                ]);
+            }
+        }
+    }
+
+    private function saveNewProductData($request) {
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->category_id = $request->input('category');
+        $product->stock = $request->input('stock');
+        $product->multiplier = $request->input('multiplier', 1.0); // Default to 1.0 if not provided
+        $product->coin_base = $request->input('coin_base', 0.0); // Default to 0.0 if not provided
+        $product->coin_base_type = $request->input('coin_base_type', 'other'); // Default to 'other' if not provided
+        $product->is_featured = false;
+        $product->save(); // Save the product to the database
+
+        return $product;
+    }
+
+    private function saveUpdatedProductData($request, $id) {
+        $product = Product::where('id', $id)->first();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->category_id = $request->input('category');
+        $product->stock = $request->input('stock');
+        $product->multiplier = $request->input('multiplier', 1.0); // Default to 1.0 if not provided
+        $product->coin_base = $request->input('coin_base', 0.0); // Default to 0.0 if not provided
+        $product->coin_base_type = $request->input('coin_base_type', 'other'); // Default to 'other' if not provided
+        $product->is_featured = $request->has('featured') ? true : false;
+        $product->save(); // Save the updated product to the database
+
+        return $product;
     }
 }

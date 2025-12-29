@@ -6,7 +6,8 @@
       <!-- Logo con enlace e ícono dorado -->
       <a href="{{ route('main') }}" class="flex items-center space-x-2 text-2xl font-bold text-indio-oscuro hover:text-yellow-500 transition duration-300">
         <!-- Moneda dorada animada -->
-        <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-500 via-yellow-400 to-amber-300 border-2 border-yellow-600 shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-spin-slow"></div>
+        {{-- <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-500 via-yellow-400 to-amber-300 border-2 border-yellow-600 shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-spin-slow"></div> --}}
+        <img src="{{ asset('assets/logo/logo-angel-ts.png') }}" alt="logo" class="w-9 h-9 rounded-full object-cover shadow-[0_0_15px_rgba(255,215,0,0.6)]">
         <span>Mexicoin</span>
       </a>
 

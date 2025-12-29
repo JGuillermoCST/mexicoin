@@ -6,16 +6,21 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use App\Models\Product;
+use App\Http\Controllers\PromotionsController;
 
 class PriceController extends Controller {
 
     public function index() { 
         $featured = Product::where('is_featured', true)->where('is_active', true)->take(8)->get();
 
+        $cont = new PromotionsController();
+        $banner = $cont->getBanner();  
+        
         return view('index', [
             'precios' => $this->getCoinsValues(),
             'fecha' => now()->format('d/m/Y H:i'),
             'featured' => $featured,
+            'banner' => $banner,
         ]);
     }
 

@@ -129,7 +129,11 @@
             myBaseType.value = 'gold';
             console.log(value);
         } else {
-            myLabel.value = Number(prices[myInput.value]['venta'].slice(1));
+            if (prices[myInput.value]['venta'].includes(",")) {
+                myLabel.value = Number(prices[myInput.value]['venta'].slice(1).replace(",", ""));
+            }else {
+                myLabel.value = Number(prices[myInput.value]['venta'].slice(1));
+            }
             myBase.value = myLabel.value;
             myBaseType.value = 'silver';
             console.log('Selected value:', myInput.value);

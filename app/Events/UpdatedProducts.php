@@ -16,7 +16,7 @@ class UpdatedProducts implements ShouldBroadcast
 
     public function __construct()
     {
-        $this->message = $message;
+        $this->message = "Products have been updated!";
     }
 
     public function broadcastOn()

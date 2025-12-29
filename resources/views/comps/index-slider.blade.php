@@ -8,7 +8,7 @@
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm ">
 
                     <div class="w-11/12 mx-auto max-w-sm bg-white rounded-lg shadow-sm">
-                        <img class="p-8 w-full h-[20rem] object-cover rounded-xl" src="{{ asset($producto['image']) }}" alt="product image" />
+                        <img src="{{ asset('assets/products/mains/'. $producto['image']) }}" alt="{{ asset('assets/products/mains/'. $producto['image']) }}" class="p-8 w-full h-[20rem] object-cover rounded-xl"  />
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ Str::limit($producto['name'], 20, '') }}</h5>
@@ -36,16 +36,16 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-2xl font-bold text-gray-900">${{ $producto['price'] }}</span>
                                 {{-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> --}}
-                                <form action="{{ route('cart.add') }}" method="POST">
-                                    @csrf
+                                <a href="{{ route('product.detail', ['id' => $producto['id']]) }}">
+                                    {{-- @csrf
                                     <input type="hidden" name="id" value="{{ $producto['id'] }}">
                                     <input type="hidden" name="name" value="{{ $producto['name'] }}">
                                     <input type="hidden" name="price" value="{{ $producto['price'] }}">
-                                    <input type="hidden" name="image" value="{{ $producto['image'] }}">
+                                    <input type="hidden" name="image" value="{{ $producto['image'] }}"> --}}
                                     <button type="submit" class="ml-auto rounded-full inline-block py-2 bg-indio-verde text-white px-4 hover:bg-indio-gris focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Agregar
+                                        Comprar
                                     </button>
-                                </form>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     <div class=" w-4/12 bg-white mx-auto">
 
                     <div class="w-11/12 mx-auto max-w-sm bg-white rounded-lg shadow-sm border border-gray-200">
-                        <img class="w-full p-2 h-[13rem] object-cover rounded-xl" src="{{ asset($producto['image']) }}" alt="product image" />
+                        <img class="w-full p-2 h-[13rem] object-cover rounded-xl" src="{{ asset('assets/products/mains/'. $producto['image']) }}" alt="{{ asset('assets/products/mains/'. $producto['image']) }}" />
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ Str::limit($producto['name'], 20, '') }}</h5>
@@ -126,16 +126,16 @@
                             <div class="flex flex-col items-center justify-between">
                                 <span class="text-xl font-bold text-gray-900">${{ $producto['price'] }}</span>
                                 {{-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> --}}
-                                <form action="{{ route('cart.add') }}" method="POST">
-                                    @csrf
+                                <a href="{{ route('product.detail', ['id' => $producto['id']]) }}">
+                                    {{-- @csrf
                                     <input type="hidden" name="id" value="{{ $producto['id'] }}">
                                     <input type="hidden" name="name" value="{{ $producto['name'] }}">
                                     <input type="hidden" name="price" value="{{ $producto['price'] }}">
-                                    <input type="hidden" name="image" value="{{ $producto['image'] }}">
+                                    <input type="hidden" name="image" value="{{ $producto['image'] }}"> --}}
                                     <button type="submit" class="ml-auto rounded-full inline-block py-2 bg-indio-verde text-white px-4 hover:bg-indio-gris focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Agregar
+                                        Comprar
                                     </button>
-                                </form>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                     <div class=" w-4/12 bg-white mx-auto">
 
                     <div class="w-11/12 mx-auto max-w-sm bg-white rounded-lg shadow-sm border border-gray-200">
-                        <img class="w-full p-2 h-[13rem] object-cover rounded-xl" src="{{ asset($producto['image']) }}" alt="product image" />
+                        <img class="w-full p-2 h-[13rem] object-cover rounded-xl" src="{{ asset('assets/products/mains/'. $producto['image']) }}" alt="{{ asset('assets/products/mains/'. $producto['image']) }}" />
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ Str::limit($producto['name'], 20, '') }}</h5>
@@ -182,16 +182,16 @@
                             <div class="flex flex-col items-center justify-between">
                                 <span class="text-xl font-bold text-gray-900">${{ $producto['price'] }}</span>
                                 {{-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> --}}
-                                <form action="{{ route('cart.add') }}" method="POST">
-                                    @csrf
+                                <a href="{{ route('product.detail', ['id' => $producto['id']]) }}">
+                                    {{-- @csrf
                                     <input type="hidden" name="id" value="{{ $producto['id'] }}">
                                     <input type="hidden" name="name" value="{{ $producto['name'] }}">
                                     <input type="hidden" name="price" value="{{ $producto['price'] }}">
-                                    <input type="hidden" name="image" value="{{ $producto['image'] }}">
+                                    <input type="hidden" name="image" value="{{ $producto['image'] }}"> --}}
                                     <button type="submit" class="ml-auto rounded-full inline-block py-2 bg-indio-verde text-white px-4 hover:bg-indio-gris focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Agregar
+                                        Comprar
                                     </button>
-                                </form>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                     <div class=" w-4/12 bg-white mx-auto">
 
                     <div class="w-11/12 mx-auto max-w-sm bg-white rounded-lg shadow-sm border border-gray-200">
-                        <img class="w-full p-2 h-[15rem] xl:h-[19rem] object-cover rounded-xl" src="{{ asset($producto['image']) }}" alt="product image" />
+                        <img class="w-full p-2 h-[15rem] xl:h-[19rem] object-cover rounded-xl" src="{{ asset('assets/products/mains/'. $producto['image']) }}" alt="{{ asset('assets/products/mains/'. $producto['image']) }}" />
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-xl xl:text-2xl font-semibold tracking-tight text-gray-900">{{ Str::limit($producto['name'], 20, '') }}</h5>
@@ -277,16 +277,16 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-xl xl:text-2xl font-bold text-gray-900">${{ $producto['price'] }}</span>
                                 {{-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> --}}
-                                <form action="{{ route('cart.add') }}" method="POST">
-                                    @csrf
+                                <a href="{{ route('product.detail', ['id' => $producto['id']]) }}">
+                                    {{-- @csrf
                                     <input type="hidden" name="id" value="{{ $producto['id'] }}">
                                     <input type="hidden" name="name" value="{{ $producto['name'] }}">
                                     <input type="hidden" name="price" value="{{ $producto['price'] }}">
-                                    <input type="hidden" name="image" value="{{ $producto['image'] }}">
+                                    <input type="hidden" name="image" value="{{ $producto['image'] }}"> --}}
                                     <button type="submit" class="ml-auto rounded-full inline-block py-2 bg-indio-verde text-white px-4 hover:bg-indio-gris focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         Comprar
                                     </button>
-                                </form>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -305,7 +305,7 @@
                     <div class=" w-4/12 bg-white mx-auto">
 
                     <div class="w-11/12 mx-auto max-w-sm bg-white rounded-lg shadow-sm border border-gray-200">
-                        <img class="w-full p-2 h-[15rem] xl:h-[19rem] object-cover rounded-xl" src="{{ asset($producto['image']) }}" alt="product image" />
+                        <img class="w-full p-2 h-[15rem] xl:h-[19rem] object-cover rounded-xl" src="{{ asset('assets/products/mains/'. $producto['image']) }}" alt="{{ asset('assets/products/mains/'. $producto['image']) }}" />
                         <div class="px-5 pb-5">
                             <a href="#">
                                 <h5 class="text-xl xl:text-2xl font-semibold tracking-tight text-gray-900">{{ Str::limit($producto['name'], 20, '') }}</h5>
@@ -333,16 +333,16 @@
                             <div class="flex items-center justify-between">
                                 <span class="text-xl xl:text-2xl font-bold text-gray-900">${{ $producto['price'] }}</span>
                                 {{-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> --}}
-                                <form action="{{ route('cart.add') }}" method="POST">
-                                    @csrf
+                                <a href="{{ route('product.detail', ['id' => $producto['id']]) }}">
+                                    {{-- @csrf
                                     <input type="hidden" name="id" value="{{ $producto['id'] }}">
                                     <input type="hidden" name="name" value="{{ $producto['name'] }}">
                                     <input type="hidden" name="price" value="{{ $producto['price'] }}">
-                                    <input type="hidden" name="image" value="{{ $producto['image'] }}">
+                                    <input type="hidden" name="image" value="{{ $producto['image'] }}"> --}}
                                     <button type="submit" class="ml-auto rounded-full inline-block py-2 bg-indio-verde text-white px-4 hover:bg-indio-gris focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         Comprar
                                     </button>
-                                </form>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -24,8 +24,7 @@
     </h1>
 
     <p class="mt-4 text-lg md:text-xl text-gray-200/90 max-w-xl mx-auto lg:mx-0">
-      Explora las nuevas tendencias en uniformes y estilo profesional. <br class="hidden md:block">
-      Calidad, diseño y comodidad en un solo lugar.
+      Descubre nuestra seleccion de Monedas de Oro, Plata y Billetes. Aqui te ofrecemos una amplia variedad de monedas de oro y plata de alta calidad, cuidadosamente seleccionadas para satisfacer tus necesidades de inversion y coleccionismo.
     </p>
 
     <div class="mt-10">

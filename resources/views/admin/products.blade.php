@@ -17,5 +17,4 @@
   </div>
 
   @include('admin.prod-add')
-  @include('admin.prod-edit')
 </x-app-layout>

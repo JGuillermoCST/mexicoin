@@ -14,12 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__.'/../routes/channels.php',
         health: '/up',
     )
-    // ->withSchedule(function (Schedule $schedule) {
-    //     $schedule->command('app:sync-coins-value')->daily();
-    // })
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();

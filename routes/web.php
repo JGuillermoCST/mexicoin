@@ -5,6 +5,7 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PromotionsController;
 
 
 // General routes
@@ -47,11 +48,15 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
 
     Route::get('/administracion/productos', [ProductController::class, 'index'])->name('admin-products');
     Route::post('/administracion/productos', [ProductController::class, 'save'])->name('admin-products.store');
-    Route::put('/administracion/productos/{id}', [ProductController::class, 'update'])->name('admin-products.update');
+    Route::get('/administracion/productos/editar/{id}', [ProductController::class, 'edit'])->name('admin-products.edit');
+    Route::put('/administracion/productos/editar/{id}', [ProductController::class, 'update'])->name('admin-products.update');
     Route::delete('/administracion/productos/{id}', [ProductController::class, 'destroy']);
 
     Route::get('/administracion/historial-ventas', [UserController::class, 'sales'])->name('admin-sales');
     Route::get('/administracion/reportes', [UserController::class, 'reports'])->name('admin-reports');
+
+    Route::get('/administracion/promocional', [PromotionsController::class, 'index'])->name('admin-promos');
+    Route::post('/administracion/promocional', [PromotionsController::class, 'updateBanner'])->name('admin-banner.update');
 
     Route::get('/mis-pedidos', function () { 
         $user = auth()->user();

@@ -7,7 +7,7 @@
     <!-- Tarjeta principal (Glass suave claro) -->
     <div class="relative z-10 w-full max-w-md bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-white/40 p-8">
       <div class="flex flex-col items-center mb-6">
-        <img src="{{ asset('assets/logo/logo-angel-ts.PNG') }}" alt="Logo" class="w-24 rounded-full shadow-md mb-2">
+        <img src="{{ asset('assets/logo/logo-angel-ts.png') }}" alt="Logo" class="w-24 rounded-full shadow-md mb-2">
         <h2 class="text-2xl font-semibold text-gray-800 tracking-wide">Bienvenido a <span class="text-yellow-500">Mexicoin</span></h2>
         <p class="text-sm text-gray-600 mt-1">Inicia sesión en tu cuenta</p>
       </div>
