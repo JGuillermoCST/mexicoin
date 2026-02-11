@@ -14,7 +14,7 @@
                     ['nombre' => 'Billetes', 'imagen' => asset('assets/billete-ad.jpg'), 'filtro' => 'billetes', 'link' => route('collections-bucks')],
                 ] as $item)
                     <a href="{{ $item['link'] }}" class="cursor-pointer bg-gray-100 hover:bg-gray-200 rounded-xl overflow-hidden shadow hover:shadow-lg transition" onclick="filtrarProductos('{{ $item['filtro'] }}')">
-                        <img src="{{ $item['imagen'] }}" alt="{{ $item['nombre'] }}" class="h-32 md:h-40 lg:h-56 xl:h-64 w-full object-cover">
+                        <img src="{{ $item['imagen'] }}" alt="{{ $item['nombre'] }}" class="h-40 lg:h-56 xl:h-64 w-full object-cover">
                         <div class="text-center py-4">
                             <h3 class="text-lg font-semibold text-indio-oscuro">{{ $item['nombre'] }}</h3>
                         </div>

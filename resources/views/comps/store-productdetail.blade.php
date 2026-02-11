@@ -145,11 +145,11 @@
                 <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper product-prev mb-6">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{ asset('assets/products/mains/'. $product['image']) }}" alt="Yellow Travel Bag image" class="mx-auto object-cover">
+                            <img src="{{ asset('assets/products/mains/'. $product['image']) }}" alt="Yellow Travel Bag image" class="bg-white mx-auto my-auto object-cover lg;h-[500px]">
                         </div>
                         @foreach ($images as $i)
                             <div class="swiper-slide">
-                                <img src="{{ asset('assets/products/supports/'. $i['filename']) }}" alt="Yellow Travel Bag image" class="mx-auto object-cover">
+                                <img src="{{ asset('assets/products/supports/'. $i['filename']) }}" alt="Yellow Travel Bag image" class="bg-white mx-auto my-auto object-cover lg;h-[500px]">
                             </div>
                         @endforeach
                     </div>
@@ -158,11 +158,11 @@
                 <div thumbsSlider="" class="swiper product-thumb max-w-[608px] mx-auto">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{ asset('assets/products/mains/'. $product['image']) }}" alt="Travel Bag image" class=" cursor-pointer border-2 border-gray-50 transition-all duration-500 hover:border-indigo-600 slide:border-indigo-600 object-cover">
+                            <img src="{{ asset('assets/products/mains/'. $product['image']) }}" alt="Travel Bag image" class="bg-white cursor-pointer border-2 border-gray-50 transition-all duration-500 hover:border-indigo-600 slide:border-indigo-600 object-cover">
                         </div>
                         @foreach ($images as $i)
                             <div class="swiper-slide">
-                                <img src="{{ asset('assets/products/supports/'. $i['filename']) }}" alt="Travel Bag image" class=" cursor-pointer border-2 border-gray-50 transition-all duration-500 hover:border-indigo-600 slide:border-indigo-600 object-cover">
+                                <img src="{{ asset('assets/products/supports/'. $i['filename']) }}" alt="Travel Bag image" class="bg-white cursor-pointer border-2 border-gray-50 transition-all duration-500 hover:border-indigo-600 slide:border-indigo-600 object-cover">
                             </div>
                         @endforeach
                     </div>

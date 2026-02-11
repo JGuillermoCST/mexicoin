@@ -25,11 +25,7 @@ yarn-error.log
 /resources/views/admin/returns
 /resources/views/checkout
 /resources/views/price
-/app/Http/Controllers/ReturnController.php
-/app/Http/Controllers/OrderController.php
 /app/Http/Controllers/ReviewController.php
-/app/Models/Return.php
-/app/Models/Order.php
 /app/Models/Review.php
 /database/migrations/2025_09_28_064216_create_returns_table.php
 storage/public/assets/products/producto_19_producto_19_producto_19_producto_19_Screen Shot 2024-03-06 at 7.12.26 PM.png/rOqHjTw7vwDmqyUfuHImLPThrZdUjJdiRbi1AaiV.png/zaozLeNCfjWTdSalSNGlb248oXvjdEX1wicH1HCd.png/ELpeTwnWsGoClmCP9GFvOx02mbTSYQLzeFADhXoV.png

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionsController;
+use App\Http\Controllers\CheckoutController;
 
 
 // General routes
@@ -58,6 +59,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
     Route::get('/administracion/promocional', [PromotionsController::class, 'index'])->name('admin-promos');
     Route::post('/administracion/promocional', [PromotionsController::class, 'updateBanner'])->name('admin-banner.update');
 
+    Route::get('/checkout/completado', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/cancelado', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+
     Route::get('/mis-pedidos', function () { 
         $user = auth()->user();
         return view('users.com-soon', compact('user')); 
@@ -66,7 +70,8 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
     // Route::get('/checkout', function () { return view('checkout'); })->name('checkout');
 
     // Cierre de compra y pedidos
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.pay');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::get('/mi-pedido/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('/mi-pedido/{order}/proof', [OrderController::class, 'uploadProof'])->name('orders.uploadProof');
