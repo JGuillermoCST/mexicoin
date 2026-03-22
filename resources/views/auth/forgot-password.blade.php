@@ -1,5 +1,5 @@
 <x-guest-layout>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden">
+  <div class="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden">
 
     <!-- Fondo decorativo -->
     <div class="absolute inset-0 bg-[url('/assets/bg-pattern.svg')] bg-cover bg-center opacity-10"></div>

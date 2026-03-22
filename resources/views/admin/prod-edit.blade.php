@@ -37,16 +37,15 @@
                                         <label for="price-base" class="block mb-2 text-sm font-medium text-gray-900">Base</label>
                                         <select id="price-base" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                             <option selected value="13">Seleccionar</option>
-                                            <option value="0">Oro</option>
-                                            <option value="1">Plata</option>
+                                            <option @if ($product->coin_base_type == 'gold') selected @endif value="0">Oro</option>
+                                            <option @if ($product->coin_base_type == 'silver') selected @endif value="1">Plata</option>
                                         </select>
                                     </div>
 
                                     <div class="col-span-2 sm:col-span-1">
                                         <label for="price-mul" class="block mb-2 text-sm font-medium text-gray-900">Multiplicador</label>
-                                        <input type="text" id="price-mul" name="multiplier" value="{{ $product->multiplier }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type product name" required="">
+                                        <input type="text" id="price-mul" name="multiplier" value="{{ $product->multiplier }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1.13" required="">
                                     </div>
-
 
                                     <div class="col-span-2 sm:col-span-1">
                                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Categoría</label>

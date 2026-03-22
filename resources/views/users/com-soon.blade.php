@@ -1,5 +1,5 @@
 <x-guest-layout>
-  <div class="h-screen flex justify-center items-center bg-gradient-to-tr from-emerald-100 via-emerald-300 to-gray-100 px-4">
+  <div class="h-screen flex justify-center items-center bg-linear-to-tr from-emerald-100 via-emerald-300 to-gray-100 px-4">
 
     <div class="max-w-lg w-full bg-white/30 backdrop-blur-xl shadow-2xl rounded-2xl border border-white/40 p-10 text-center animate-fadeIn">
       

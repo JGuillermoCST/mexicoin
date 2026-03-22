@@ -1,12 +1,13 @@
 <x-guest-layout>
     
 
-    @include('comps.index-hero')
-    @include('comps.gen-liveprices')
+    @include('comps.index.hero')
+    @include('comps.general.liveprices')
+    @include('comps.index.subsmap')
     {{-- @include('comps.index-feats') --}}
-    @include('comps.index-storelks')
+    @include('comps.index.storelinks')
 
-    @include('comps.index-slider')
+    @include('comps.index.slider')
 
     {{-- @include('comps.index-categories') --}}
 
@@ -226,7 +227,7 @@
     </section> --}}
     <!-- ./new arrival -->
 
-    @include('comps.index-ads')
+    @include('comps.index.ads')
 
     {{-- @push('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"

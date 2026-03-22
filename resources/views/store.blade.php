@@ -1,5 +1,5 @@
 <x-guest-layout>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden">
+  <div class="min-h-screen bg-linear-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden">
 
     <!-- Fondo decorativo -->
     <div class="absolute inset-0 bg-[url('/assets/bg-pattern.svg')] bg-cover bg-center opacity-10"></div>
@@ -17,7 +17,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         @foreach ($products as $p)
           <div class="bg-white/70 backdrop-blur-md rounded-2xl border border-white/40 shadow-md hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-[1.02]">
-            @include('comps.store-productcard', ['producto' => $p])
+            @include('comps.store.productcard', ['producto' => $p])
           </div>
         @endforeach
       </div>

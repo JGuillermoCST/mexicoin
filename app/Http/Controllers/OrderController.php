@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller {
 
     public function addToCart(Request $request) {
 
@@ -45,8 +45,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function deleteFromCart($id)
-    {
+    public function deleteFromCart($id) {
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
@@ -82,44 +81,14 @@ class OrderController extends Controller
         return $count;
     }
 
-    public function checkout()
-    {
-        // Aquí traerías los datos del carrito
-        $cart = session('cart', []);
-        return view('checkout', compact('cart'));
+    public function index() {
+        $orders = Order::where('user_id', Auth::id())->get();
+        return view('users.orders.main', compact('orders'));
     }
 
-    public function store(Request $request)
-    {
-        // Guardar datos generales de la orden
-        $order = Order::create([
-            'name'           => $request->name,
-            'email'          => $request->email,
-            'address'        => $request->address,
-            'payment_method' => $request->payment_method,
-            'status'         => 'pendiente'
-        ]);
-
-        // Guardar los productos del carrito
-        foreach (session('cart', []) as $product) {
-            $order->items()->create([
-                'product_name' => $product['name'],
-                'quantity'     => $product['quantity'],
-                'price'        => $product['price'],
-                'subtotal'     => $product['price'] * $product['quantity']
-            ]);
-        }
-
-        // Vaciar carrito
-        session()->forget('cart');
-
-        return redirect()->route('order.status', $order->id)
-            ->with('success', 'Orden registrada, pendiente de pago.');
-    }
-
-    public function show(Order $order)
-    {
-        return view('order-status', compact('order'));
+    public function show($id) {
+        $order = Order::where('id', $id)->first();
+        return view('users.orders.details', compact('order'));
     }
 
     public function uploadProof(Request $request, Order $order)

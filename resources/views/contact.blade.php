@@ -1,5 +1,5 @@
 <x-guest-layout>
-  <section id="contacto" class="min-h-screen bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden py-16">
+  <section id="contacto" class="min-h-screen bg-linear-to-br from-blue-50 via-gray-100 to-blue-100 relative overflow-hidden py-16">
 
     <!-- Fondo decorativo -->
     <div class="absolute inset-0 bg-[url('/assets/bg-pattern.svg')] bg-cover bg-center opacity-10"></div>

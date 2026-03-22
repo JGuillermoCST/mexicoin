@@ -1,13 +1,13 @@
 <x-guest-layout>
-<section class="bg-gradient-to-b from-white via-[#FFFDF6] to-white py-20 px-6">
+<section class="bg-linear-to-b from-white via-[#FFFDF6] to-white py-20 px-6">
   <div class="max-w-3xl mx-auto">
     
     <!-- Title -->
     <div class="text-center mb-12">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-[#1C3144] tracking-tight">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-indio-oscuro tracking-tight">
         Preguntas <span class="text-yellow-500">Frecuentes</span>
       </h2>
-      <div class="mt-3 h-1 w-24 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto rounded-full shadow-lg"></div>
+      <div class="mt-3 h-1 w-24 bg-linear-to-r from-yellow-400 to-yellow-600 mx-auto rounded-full shadow-lg"></div>
     </div>
 
     <!-- Accordion -->
@@ -22,7 +22,7 @@
       <div class="group bg-white border border-yellow-400/40 rounded-2xl shadow-sm hover:shadow-yellow-200/60 hover:border-yellow-400 transition-all duration-300 overflow-hidden relative">
         <button 
           type="button" 
-          class="w-full flex justify-between items-center px-6 py-5 text-left text-[#1C3144] font-semibold focus:outline-none transition-all duration-300"
+          class="w-full flex justify-between items-center px-6 py-5 text-left text-indio-oscuro font-semibold focus:outline-none transition-all duration-300"
           onclick="toggleFaq({{ $i }})"
         >
           <span class="group-hover:text-yellow-600 transition">{{ $faq['q'] }}</span>
@@ -36,7 +36,7 @@
         </div>
 
         <!-- Glow line -->
-        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-yellow-400 to-yellow-600 transition-all duration-500 group-hover:w-full"></div>
+        <div class="absolute bottom-0 left-0 w-0 h-[2px] bg-linear-to-r from-yellow-400 to-yellow-600 transition-all duration-500 group-hover:w-full"></div>
       </div>
       @endforeach
     </div>

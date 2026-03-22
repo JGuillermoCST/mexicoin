@@ -6,7 +6,7 @@
       <!-- Logo con enlace e ícono dorado -->
       <a href="{{ route('main') }}" class="flex items-center space-x-2 text-2xl font-bold text-indio-oscuro hover:text-yellow-500 transition duration-300">
         <!-- Moneda dorada animada -->
-        {{-- <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-500 via-yellow-400 to-amber-300 border-2 border-yellow-600 shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-spin-slow"></div> --}}
+        {{-- <div class="w-7 h-7 rounded-full bg-linear-to-tr from-yellow-500 via-yellow-400 to-amber-300 border-2 border-yellow-600 shadow-[0_0_15px_rgba(255,215,0,0.6)] animate-spin-slow"></div> --}}
         <img src="{{ asset('assets/logo/logo-angel-ts.png') }}" alt="logo" class="w-9 h-9 rounded-full object-cover shadow-[0_0_15px_rgba(255,215,0,0.6)]">
         <span>Mexicoin</span>
       </a>
@@ -20,7 +20,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </label>
-      <nav class="absolute left-0 top-full w-full hidden peer-checked:flex flex-col items-center justify-center bg-white/100 backdrop-blur-2xl py-8 space-y-4 text-sm text-indio-gris font-medium shadow-md transition-all duration-300 ease-in-out lg:static lg:flex lg:flex-row lg:items-center lg:space-y-0 lg:space-x-6 lg:bg-transparent lg:backdrop-blur-0 lg:shadow-none lg:py-0 lg:text-base">
+      <nav class="absolute left-0 top-full w-full hidden peer-checked:flex flex-col items-center justify-center bg-white backdrop-blur-2xl py-8 space-y-4 text-sm text-indio-gris font-medium shadow-md transition-all duration-300 ease-in-out lg:static lg:flex lg:flex-row lg:items-center lg:space-y-0 lg:space-x-6 lg:bg-transparent lg:backdrop-blur-0 lg:shadow-none lg:py-0 lg:text-base">
         <a href="{{ route('main') }}" class="hover:text-indio-verde transition">Inicio</a>
         <a href="{{ route('store') }}" class="hover:text-indio-verde transition">Tienda</a>
         <a href="{{ route('dashboard') }}" class="hover:text-indio-verde transition">Cuenta</a>

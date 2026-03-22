@@ -36,12 +36,12 @@
     <div class="flex flex-col items-center md:items-end space-y-4">
       <!-- Beneficios -->
       <div class="space-y-3 w-full max-w-xs">
-        <a href="{{ route('membership') }}" class="flex items-center justify-between bg-gray-800/60 border border-yellow-600/40 rounded-lg p-3 hover:bg-gray-800 transition">
+        <a href="{{ route('subs') }}" class="flex items-center justify-between bg-gray-800/60 border border-yellow-600/40 rounded-lg p-3 hover:bg-gray-800 transition">
           <div class="flex items-center space-x-3">
             <i class="fa-solid fa-truck text-yellow-500 text-xl"></i>
             <div>
               <p class="text-gray-100 text-sm font-semibold">Envío Gratuito</p>
-              <p class="text-xs text-gray-400">Con membresía pro</p>
+              <p class="text-xs text-gray-400">Con membresía plus</p>
             </div>
           </div>
         </a>
@@ -54,12 +54,12 @@
             </div>
           </div>
         </a>
-        <a href="{{ route('contact') }}" class="flex items-center justify-between bg-gray-800/60 border border-yellow-600/40 rounded-lg p-3 hover:bg-gray-800 transition">
+        <a href="{{ route('subs') }}" class="flex items-center justify-between bg-gray-800/60 border border-yellow-600/40 rounded-lg p-3 hover:bg-gray-800 transition">
           <div class="flex items-center space-x-3">
             <i class="fa-solid fa-headset text-yellow-500 text-xl"></i>
             <div>
               <p class="text-gray-100 text-sm font-semibold">Soporte 24/7</p>
-              <p class="text-xs text-gray-400">Para nuestros clientes</p>
+              <p class="text-xs text-gray-400">Para nuestros clientes Pro</p>
             </div>
           </div>
         </a>
@@ -85,4 +85,4 @@
   </div>
 </footer>
 
-@include('comps.wp-float')
+@include('comps.general.wp-float')

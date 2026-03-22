@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\UserController;
@@ -17,8 +18,8 @@ Route::get('/politicas', function () {return view('client-help.privacy');})->nam
 Route::get('/terminos', function () {  return view('terms');   })->name('terms');
 Route::get('/faq', function () {  return view('client-help.faq');   })->name('faq');
 Route::get('/devoluciones', function () {  return view('client-help.returns-policy');   })->name('returns-pol');
-Route::get('/membresía', function () {  return view('client-help.membership');   })->name('membership');
 Route::get('/producto/{id}', [ProductController::class, 'show'])->name('product.detail');
+Route::get('/suscripciones', function () { return view('subspricing'); })->name('subs');
 
 // Colecciones
 Route::get('/colecciones', [ProductController::class, 'displayCollections'])->name('collections');
@@ -35,8 +36,18 @@ Route::post('/cart/add', [OrderController::class, 'addToCart'])->name('cart.add'
 Route::get('/cart', [OrderController::class, 'view'])->name('cart.view');
 Route::delete('/cart/{id}', [OrderController::class, 'deleteFromCart'])->name('cart.remove');
 
-Route::get('/tst-checkout-pass', function () {return view('store.chkout-pass');})->name('checkout-pass');
-Route::get('/tst-checkout-fail', function () {return view('store.chkout-fail');})->name('checkout-fail');
+Route::get('/tst-checkout-pass', function () {return view('checkout.pass');})->name('checkout-pass');
+Route::get('/tst-checkout-fail', function () {return view('checkout.fail');})->name('checkout-fail');
+
+Route::get('paypal-test', function () {
+    return view('checkout.paypal');
+})->name('paypal-test');
+
+Route::post('/paypal/create-order', [CheckoutController::class, 'createOrder'])->name('paypal.create-order');
+Route::post('/paypal/{order_id}/capture-order', [CheckoutController::class, 'captureOrder'])->name('paypal.capture-order');
+
+Route::get('/plus', function () { return view('users.subscriptions.plus'); })->name('details-plus');
+Route::get('/pro', function () { return view('users.subscriptions.pro'); })->name('details-pro');
 
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
@@ -59,20 +70,16 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
     Route::get('/administracion/promocional', [PromotionsController::class, 'index'])->name('admin-promos');
     Route::post('/administracion/promocional', [PromotionsController::class, 'updateBanner'])->name('admin-banner.update');
 
-    Route::get('/checkout/completado', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/completado/', [CheckoutController::class, 'success'])->defaults('order_id', null)->defaults('total', null)->defaults('cart_data', null)->name('checkout.success');
     Route::get('/checkout/cancelado', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-
-    Route::get('/mis-pedidos', function () { 
-        $user = auth()->user();
-        return view('users.com-soon', compact('user')); 
-    })->name('my-orders');
 
     // Route::get('/checkout', function () { return view('checkout'); })->name('checkout');
 
     // Cierre de compra y pedidos
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.pay');
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    Route::get('/mi-pedido/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::post('/mi-pedido/{order}/proof', [OrderController::class, 'uploadProof'])->name('orders.uploadProof');
+
+    Route::get('/mis-pedidos', [OrderController::class, 'index'])->name('orders');
+    Route::get('/mis-pedidos/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/mis-pedidos/{order}/doc', [OrderController::class, 'uploadProof'])->name('orders.proof');
 });

@@ -39,9 +39,8 @@
 
                     <div class="col-span-2 sm:col-span-1">
                         <label for="price-mul" class="block mb-2 text-sm font-medium text-gray-900">Multiplicador</label>
-                        <input type="text" id="price-mul" name="multiplier" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type product name" required="">
+                        <input type="text" id="price-mul" name="multiplier" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="1.13" required="">
                     </div>
-
 
                     <div class="col-span-2 sm:col-span-1">
                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Categoría</label>

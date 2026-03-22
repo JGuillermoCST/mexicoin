@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller {
 
@@ -19,11 +20,16 @@ class ProductController extends Controller {
         $category = Category::where('id', $product['category_id'])->get(); 
         $category = $category[0]['name'];
         $images = ProductImage::where('product_id', $id)->get(); // Fetch associated images
-        return view('store.detail', compact('product', 'category', 'images'));
+        $imgs = array();
+        $imgs[] = ['thumb' => asset('assets/products/mains/'. $product['image']), 'full' => asset('assets/products/mains/'. $product['image']), 'alt' => $product['image']];
+        foreach ($images as $i) {
+            $imgs[] = ['thumb' => asset('assets/products/supports/'. $i['filename']), 'full' => asset('assets/products/supports/'. $i['filename']), 'alt' => $i['filename']];
+        }   
+        return view('store.detail', compact('product', 'category', 'imgs'));
     }
 
     public function edit($id) {
-        $user = auth()->user();
+        $user = Auth::user();
         $categories = Category::all(); // Fetch all categories for the dropdown
         $product = Product::findOrFail($id); // Fetch all products for display
         $prices = (new PriceController())->prices(); // Fetch prices if needed
@@ -53,7 +59,7 @@ class ProductController extends Controller {
     }
     
     public function index() {
-        $user = auth()->user();
+        $user = Auth::user();
         $categories = Category::all(); // Fetch all categories for the dropdown
         $products = Product::paginate(10); // Fetch all products for display
         $prices = (new PriceController())->prices(); // Fetch prices if needed
@@ -61,10 +67,10 @@ class ProductController extends Controller {
         return view('admin.products', compact('user', 'categories', 'products', 'prices'));
     }
 
-    public function featuredProducts() {
-        $products = Product::where('is_featured', true)->get();
-        return view('store.featured', compact('products'));
-    }
+    // public function featuredProducts() {
+    //     $products = Product::where('is_featured', true)->get();
+    //     return view('store.featured', compact('products'));
+    // }
 
     public function save(Request $request) {
 

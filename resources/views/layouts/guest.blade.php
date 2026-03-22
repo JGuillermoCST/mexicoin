@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        @include('comps.head')
+        @include('comps.general.head')
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -18,7 +18,7 @@
     
     <body class="w-full">
         @include('structure.header')
-        @include('store.cart-side')
+        @include('comps.store.cartsidebar')
 
         <!-- Fondo oscurecido cuando el carrito está abierto -->
         <div id="cartOverlay" class="fixed inset-0 bg-black/30 z-40 hidden"></div>

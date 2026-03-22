@@ -24,9 +24,9 @@
     const toggleMenu = document.getElementById('toggleMenu');
     const menu = document.getElementById('menu');
 
-    toggleMenu.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-    });
+    // toggleMenu.addEventListener('click', () => {
+    //     menu.classList.toggle('hidden');
+    // });
 </script>  
 
 <script>
@@ -42,6 +42,6 @@
 <!-- Flowbite JS -->
 <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 
-<script src="./node_modules/preline/dist/preline.js"></script>
+{{-- <script src="./node_modules/preline/dist/preline.js"></script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/pagedone@1.2.2/src/js/pagedone.js"></script>
