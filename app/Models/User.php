@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Subscription;
+use Laravel\Cashier\Billable; 
 
 class User extends Authenticatable
 {
@@ -19,6 +22,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +35,7 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
+        'stripe_id',
     ];
 
     public function getType(): string
@@ -71,5 +76,28 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class)->latestOfMany();
+    }
+
+    public function subscribed(): bool
+    {
+        $subscription = $this->subscription;
+
+        return $subscription->isActive();
+    } 
+
+    public function subscribedToPlan($type): bool
+    {
+        $subscription = $this->subscription;
+
+        if ($subscription->isActive()) {
+            return $subscription->stripe_price == $type;
+        }
+
+        return false;
     }
 }

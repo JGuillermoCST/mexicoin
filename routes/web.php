@@ -8,6 +8,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Middleware\VerifyCsrfToken;
+use App\Http\Controllers\AddressController;
 
 
 // General routes
@@ -36,27 +39,21 @@ Route::post('/cart/add', [OrderController::class, 'addToCart'])->name('cart.add'
 Route::get('/cart', [OrderController::class, 'view'])->name('cart.view');
 Route::delete('/cart/{id}', [OrderController::class, 'deleteFromCart'])->name('cart.remove');
 
-Route::get('/tst-checkout-pass', function () {return view('checkout.pass');})->name('checkout-pass');
-Route::get('/tst-checkout-fail', function () {return view('checkout.fail');})->name('checkout-fail');
-
-Route::get('paypal-test', function () {
-    return view('checkout.paypal');
-})->name('paypal-test');
-
-Route::post('/paypal/create-order', [CheckoutController::class, 'createOrder'])->name('paypal.create-order');
-Route::post('/paypal/{order_id}/capture-order', [CheckoutController::class, 'captureOrder'])->name('paypal.capture-order');
-
-Route::get('/plus', function () { return view('users.subscriptions.plus'); })->name('details-plus');
-Route::get('/pro', function () { return view('users.subscriptions.pro'); })->name('details-pro');
-
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
 
     Route::get('/mis-datos', function () { return view('profile.show'); })->name('profile');
-    Route::get('/mi-pagina', [UserController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::get('/historial-compras', [UserController::class, 'purchases'])->name('purchase-history');
     Route::get('/mis-opiniones', [UserController::class, 'opinions'])->name('opinions');
-    Route::get('/mis-tarjetas', [UserController::class, 'cards'])->name('cards');
+
+    Route::get('/mis-direcciones', [AddressController::class, 'index'])->name('addresses');
+    Route::post('/mis-direcciones', [AddressController::class, 'store'])->name('addresses.store');
+    Route::put('/mis-direcciones/{id}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('/mis-direcciones/{id}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+
+    Route::get('/mi-plus', function () { return view('users.subscriptions.plus'); })->name('details-plus');
+    Route::get('/mi-pro', function () { return view('users.subscriptions.pro'); })->name('details-pro');
 
     Route::get('/administracion/productos', [ProductController::class, 'index'])->name('admin-products');
     Route::post('/administracion/productos', [ProductController::class, 'save'])->name('admin-products.store');
@@ -73,8 +70,6 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
     Route::get('/checkout/completado/', [CheckoutController::class, 'success'])->defaults('order_id', null)->defaults('total', null)->defaults('cart_data', null)->name('checkout.success');
     Route::get('/checkout/cancelado', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
-    // Route::get('/checkout', function () { return view('checkout'); })->name('checkout');
-
     // Cierre de compra y pedidos
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.pay');
@@ -82,4 +77,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
     Route::get('/mis-pedidos', [OrderController::class, 'index'])->name('orders');
     Route::get('/mis-pedidos/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('/mis-pedidos/{order}/doc', [OrderController::class, 'uploadProof'])->name('orders.proof');
+
+    Route::get('/subscription/checkout/{plan?}/{price?}', [SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::get('/subscription/success', function () { return view('users.subscriptions.success'); })->name('subscription.success');
+    Route::get('/subscription/pro-success', function () { return view('users.subscriptions.error'); })->name('subscription.error');
+    Route::get('/subscription/cancel',   [SubscriptionController::class, 'cancel'])->name('cancel-subscription');
 });

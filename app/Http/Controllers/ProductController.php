@@ -87,7 +87,7 @@ class ProductController extends Controller {
         $this->saveProductImage($request, $product);
         $this->saveProductImageList($request, $product);
 
-        return redirect()->route('admin-products.edit', ['id' => $product['id']])->with('success', 'Product updated successfully.');
+        return redirect()->route('admin-products', ['id' => $product['id']])->with('success', 'Product updated successfully.');
     }
 
     public function destroy($id) {

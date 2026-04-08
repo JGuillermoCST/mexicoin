@@ -283,18 +283,9 @@
                 <p class="price-saving" id="saving-plus"></p>
             </div>
 
-            <form id="postCart" action="{{ route('cart.add') }}" method="POST">
-                @csrf
-                <input type="hidden" name="qty" value="1" >
-                <input type="hidden" name="id" value="13018701">
-                <input type="hidden" name="name" value="Membresía Plus">
-                <input type="hidden" name="price" value="499">
-                <input type="hidden" name="image" value="{{ asset('assets/plans/plus.png') }}">
-
-                <button class="cta-btn bg-yellow-500/80" id="cta-plus" onclick="selectPlan('plus')">
-                    Comenzar con Plus
-                </button>
-            </form>
+            <a class="cta-btn bg-yellow-500/80" id="cta-plus" href="{{ route('subscription.checkout', ['plan' => config('stripe.plans.plus'), 'price' => config('stripe.prices.plus')]) }}">
+                Comenzar con Plus
+            </a>
 
             <div class="divider"></div>
 
@@ -328,18 +319,9 @@
                 <p class="price-saving" id="saving-pro"></p>
             </div>
 
-            <form id="postCart" action="{{ route('cart.add') }}" method="POST">
-                @csrf
-                <input type="hidden" name="qty" value="1" >
-                <input type="hidden" name="id" value="13018702">
-                <input type="hidden" name="name" value="Membresía Pro">
-                <input type="hidden" name="price" value="999">
-                <input type="hidden" name="image" value="{{ asset('assets/plans/pro.png') }}">
-
-                <button class="cta-btn bg-yellow-400" id="cta-pro" onclick="selectPlan('pro')">
-                    Comenzar con Pro
-                </button>
-            </form>
+            <a class="cta-btn bg-yellow-400" id="cta-pro" href="{{ route('subscription.checkout', ['plan' => config('stripe.plans.pro'), 'price' => config('stripe.prices.pro')]) }}">
+                Comenzar con Pro
+            </a>
 
             <div class="divider"></div>
 
@@ -358,16 +340,10 @@
     </div>
 
     {{-- ── TRUST BADGES ── --}}
-    {{-- <div class="trust">
+    <div class="trust">
         <span>🔒 Pago 100% seguro</span>
         <span>🇲🇽 Precios en MXN</span>
         <span>↩️ Cancela cuando quieras</span>
-    </div> --}}
-
-    {{-- ── BARRA INFERIOR ── --}}
-    <div class="bottom-bar" id="bottom-bar">
-        <span id="bottom-text"></span>
-        <button class="pay-btn">Continuar al pago →</button>
     </div>
 
     <script>

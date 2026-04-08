@@ -16,10 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('email');
-            $table->string('phone');
+            $table->string('phone')->default('');
             $table->string('address');
-            $table->enum('payment_method', ['stripe', 'paypal']);
-            $table->enum('status', ['pendiente', 'confirmado', 'enviado', 'cancelado'])->default('pendiente');
+            $table->string('stripe_payment_id')->nullable();
+            $table->enum('payment_method', ['stripe','transferencia', 'paypal']);
+            $table->enum('status', ['pendiente', 'confirmado', 'enviado', 'cancelado', 'en proceso de devolución', 'devuelto'])->default('pendiente');
             $table->string('proof_image')->nullable();
             $table->decimal('total', 10, 2);
             $table->timestamps();

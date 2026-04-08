@@ -11,9 +11,17 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        //
+        if ($this->app->environment('production')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
+
+        if ($this->app->environment('production')) {
+            $this->app->bind('path.public', function (){
+                return base_path().'/home3/josegui5/public_html';
+            });
+        }
     }
 
     /**
@@ -23,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        if (config('app.env') === 'production') {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
 

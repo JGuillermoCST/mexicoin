@@ -11,47 +11,22 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as Session;
 use Stripe\Customer;
-use PaypalServerSdkLib\PaypalServerSdkClientBuilder;
-use PaypalServerSdkLib\Authentication\ClientCredentialsAuthCredentialsBuilder;
-use PaypalServerSdkLib\Logging\LoggingConfigurationBuilder;
-use PaypalServerSdkLib\Logging\RequestLoggingConfigurationBuilder;
-use PaypalServerSdkLib\Logging\ResponseLoggingConfigurationBuilder;
-use Psr\Log\LogLevel;
-use PaypalServerSdkLib\Models\Builders\OrderRequestBuilder;
-use PaypalServerSdkLib\Models\CheckoutPaymentIntent;
-use PaypalServerSdkLib\Models\Builders\PurchaseUnitRequestBuilder;
-use PaypalServerSdkLib\Models\Builders\AmountWithBreakdownBuilder;
-use PaypalServerSdkLib\Models\Builders\AmountBreakdownBuilder;
-use PaypalServerSdkLib\Models\Builders\MoneyBuilder;
-use PaypalServerSdkLib\Models\Builders\ItemBuilder;
-use PaypalServerSdkLib\Models\ItemCategory;
-use PaypalServerSdkLib\Models\Builders\ShippingDetailsBuilder;
-use PaypalServerSdkLib\Models\Builders\ShippingNameBuilder;
-use PaypalServerSdkLib\Models\Builders\ShippingOptionBuilder;
-use PaypalServerSdkLib\Models\ShippingType;
-use PaypalServerSdkLib\Environment;
-use PaypalServerSdkLib\Models\Builders\PaypalWalletBuilder;
-use PaypalServerSdkLib\Models\Builders\PaypalWalletExperienceContextBuilder;
-use PaypalServerSdkLib\Models\ShippingPreference;
-use PaypalServerSdkLib\Models\PaypalExperienceLandingPage;
-use PaypalServerSdkLib\Models\PaypalExperienceUserAction;
-use PaypalServerSdkLib\Models\Builders\CallbackConfigurationBuilder;
-use PaypalServerSdkLib\Models\Builders\PhoneNumberWithCountryCodeBuilder;
-use PaypalServerSdkLib\Models\Builders\PaymentSourceBuilder;
-use PaypalServerSdkLib\Models\CallbackEvents;
 use Exception;
 use Illuminate\Support\Facades\Session as SessionFacade;
-
+use Laravel\Cashier\Cashier;
+use App\Models\User;
 
 class CheckoutController extends Controller {
     
     public function index() {
 
+        $user = Auth::user();
         $adjustments = Adjusment::all();
         $uid = Auth::id();
         $addresses = Address::where('user_id', $uid)->get();
+        $subscription = $user->subscription;
 
-        return view('checkout.start', compact('adjustments', 'addresses'));
+        return view('checkout.start', compact('adjustments', 'addresses', 'user', 'subscription'));
     }
 
     public function checkout(Request $request) {
@@ -142,9 +117,7 @@ class CheckoutController extends Controller {
     private function setStripePayment($cart_data, $total, $order_id) {
         Stripe::setApiKey(config('stripe.sk'));
 
-        $customer = Customer::create([
-            'email' => Auth::user()->email,
-        ]);
+        $customer = $this->getOrCreateCustomer(Auth::user());
 
         $total = round($total * 100); // Stripe maneja los montos en centavos
 
@@ -156,7 +129,7 @@ class CheckoutController extends Controller {
                     'price_data' => [
                         'currency' => 'mxn',
                         'product_data' => [
-                            'name' => 'Compra en Mexicoin',
+                            'name' => 'Tu compra en Mexicoin',
                         ],
                         'unit_amount' => $total, // Stripe maneja los montos en centavos
                     ],
@@ -178,6 +151,21 @@ class CheckoutController extends Controller {
         SessionFacade::forget('cartend'); // Limpiar el carrito temporal de checkout
         SessionFacade::forget('totalend'); // Limpiar el total temporal de checkout
         SessionFacade::forget('order_id'); // Limpiar el ID de orden temporal de checkout
+    }
+
+    private function getOrCreateCustomer($user): Customer
+    {
+        
+        $existing = $user->asStripeCustomer();
+
+        if ($existing) {
+            // Si el usuario ya tiene un customer_id guardado, reutilizarlo
+            return $existing;
+        }
+
+        $customer = $user->createAsStripeCustomer();
+
+        return $customer;
     }
     
 }

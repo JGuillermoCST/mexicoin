@@ -1,14 +1,3 @@
-{{--
-|--------------------------------------------------------------------------
-| Navegación responsive — desktop sidebar + mobile drawer
-|--------------------------------------------------------------------------
-| Incluye en tu layout principal:
-|   @include('components.nav')
-|
-| En el <body> agrega la clase "lg:pl-64" al contenedor principal
-| para que el contenido no quede debajo del sidebar en desktop.
---}}
-
 {{-- ════════════════════════════════════════════════════════════
      MOBILE: Topbar con botón hamburguesa
 ════════════════════════════════════════════════════════════ --}}
@@ -83,6 +72,7 @@
                 </a>
 
                 {{-- Membresía Plus --}}
+                @if (auth()->user()->subscription?->isActive() && auth()->user()->subscription->stripe_price == 'price_1TDnR5RBqlwskPfVY8CNlG6h')
                 <a href="{{ route('details-plus') }}"
                    onclick="navClose()"
                    class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg
@@ -95,7 +85,9 @@
                     </svg>
                     Membresía Plus
                 </a>
+                @endif
 
+                @if (auth()->user()->subscription?->isActive() && auth()->user()->subscription->stripe_price == 'price_1TDnRiRBqlwskPfV3gTwIQfS')
                 {{-- Membresía Pro --}}
                 <a href="{{ route('details-pro') }}"
                    onclick="navClose()"
@@ -109,6 +101,7 @@
                     </svg>
                     Membresía Pro
                 </a>
+                @endif
 
                 {{-- Links solo para usuarios no-admin --}}
                 @if(Auth::user()->type != 'admin')
@@ -126,12 +119,12 @@
                         Mis pedidos
                     </a>
 
-                    <a href="{{ route('usr-comsoon') }}"
+                    <a href="{{ route('addresses') }}"
                        onclick="navClose()"
                        class="group flex items-center px-3 py-2 text-sm font-medium rounded-lg
-                              {{ request()->routeIs('usr-comsoon') ? 'bg-cyan-50 text-cyan-700' : 'text-gray-700 hover:bg-gray-100 hover:text-cyan-700' }}
+                              {{ request()->routeIs('addresses') ? 'bg-cyan-50 text-cyan-700' : 'text-gray-700 hover:bg-gray-100 hover:text-cyan-700' }}
                               transition-all">
-                        <svg class="mr-3 h-5 w-5 {{ request()->routeIs('usr-comsoon') ? 'text-cyan-600' : 'text-gray-400 group-hover:text-cyan-600' }}"
+                        <svg class="mr-3 h-5 w-5 {{ request()->routeIs('addresses') ? 'text-cyan-600' : 'text-gray-400 group-hover:text-cyan-600' }}"
                              fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                   d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125H9.75V15h4.5v4.875H19.5V9.75"/>

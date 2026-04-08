@@ -36,110 +36,21 @@ use Illuminate\Support\Facades\Auth;
 |   STRIPE_PRICE_PRO=price_xxx
 */
 
-class StripeSubscriptionController extends Controller
+class SubscriptionController extends Controller
 {
     public function __construct()
     {
         Stripe::setApiKey(config('services.stripe.secret'));
     }
 
-    // ── Mapa plan → Price ID de Stripe ──────────────────────────────────────
-    private array $prices = [
-        'plus' => 'STRIPE_PRICE_PLUS',
-        'pro'  => 'STRIPE_PRICE_PRO',
-    ];
-
-    /*
-    |--------------------------------------------------------------------------
-    | 1. Crear o reutilizar Customer en Stripe + crear suscripción
-    |--------------------------------------------------------------------------
-    | POST /subscription/checkout
-    | Body: { plan: 'plus'|'pro', payment_method_id: 'pm_xxx' }
-    */
-    public function checkout(Request $request)
+    public function checkout(Request $request, String $plan, String $price)
     {
-        $request->validate([
-            'plan'              => 'required|in:plus,pro',
-            'payment_method_id' => 'required|string',
+        return $request->user()
+        ->newSubscription($plan, $price)
+        ->checkout([
+            'success_url' => route('subscription.success'),
+            'cancel_url' => route('subscription.error'),
         ]);
-
-        $user = Auth::user();
-        $plan = $request->plan;
-
-        // Verificar que no tenga ya una suscripción activa
-        if ($user->subscription && $user->subscription->isActive()) {
-            return response()->json([
-                'error' => 'Ya tienes una suscripción activa.',
-            ], 422);
-        }
-
-        try {
-            // 1. Crear o recuperar el Customer en Stripe
-            $customerId = $this->getOrCreateCustomer($user, $request->payment_method_id);
-
-            // 2. Adjuntar el método de pago al customer
-            $pm = \Stripe\PaymentMethod::retrieve($request->payment_method_id);
-            $pm->attach(['customer' => $customerId]);
-
-            // 3. Establecer como método de pago por defecto
-            \Stripe\Customer::update($customerId, [
-                'invoice_settings' => [
-                    'default_payment_method' => $request->payment_method_id,
-                ],
-            ]);
-
-            // 4. Crear la suscripción en Stripe
-            $stripeSub = StripeSubscription::create([
-                'customer'         => $customerId,
-                'items'            => [['price' => env($this->prices[$plan])]],
-                'payment_behavior' => 'default_incomplete',
-                'payment_settings' => [
-                    'payment_method_types'        => ['card'],
-                    'save_default_payment_method' => 'on_subscription',
-                ],
-                'expand'           => ['latest_invoice.payment_intent'],
-                'metadata'         => [
-                    'user_id' => $user->id,
-                    'plan'    => $plan,
-                ],
-            ]);
-
-            // 5. Guardar en base de datos
-            $amounts = ['plus' => 499.00, 'pro' => 999.00];
-
-            $subscription = Subscription::updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'plan'                     => $plan,
-                    'amount'                   => $amounts[$plan],
-                    'currency'                 => 'MXN',
-                    'stripe_customer_id'       => $customerId,
-                    'stripe_subscription_id'   => $stripeSub->id,
-                    'stripe_price_id'          => env($this->prices[$plan]),
-                    'stripe_payment_method_id' => $request->payment_method_id,
-                    'stripe_latest_invoice_id' => $stripeSub->latest_invoice->id,
-                    'status'                   => $stripeSub->status,
-                    'current_period_start'     => now()->timestamp($stripeSub->current_period_start),
-                    'current_period_end'       => now()->timestamp($stripeSub->current_period_end),
-                    'stripe_metadata'          => $stripeSub->toArray(),
-                ]
-            );
-
-            // 6. Devolver el client_secret para confirmar el pago en el frontend
-            $clientSecret = $stripeSub->latest_invoice->payment_intent->client_secret ?? null;
-
-            return response()->json([
-                'subscription_id' => $subscription->id,
-                'client_secret'   => $clientSecret,
-                'status'          => $stripeSub->status,
-            ]);
-
-        } catch (\Stripe\Exception\CardException $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
-        } catch (\Exception $e) {
-            Log::error('Stripe checkout error: ' . $e->getMessage(), ['user_id' => $user->id]);
-            return response()->json(['error' => 'Error al procesar el pago. Intenta de nuevo.'], 500);
-        }
     }
 
     /*
@@ -151,83 +62,42 @@ class StripeSubscriptionController extends Controller
     */
     public function cancel(Request $request)
     {
-        $request->validate([
-            'confirm' => 'required|in:CANCELAR',
-        ], [
-            'confirm.in' => 'Escribe exactamente "CANCELAR" para confirmar.',
-        ]);
+        // $request->validate([
+        //     'confirm' => 'required|in:CANCELAR',
+        // ], [
+        //     'confirm.in' => 'Escribe exactamente "CANCELAR" para confirmar.',
+        // ]);
 
-        $user         = Auth::user();
-        $subscription = $user->subscription;
+        // $user         = Auth::user();
+        // $subscription = $user->subscription;
 
-        if (! $subscription || ! $subscription->isActive()) {
-            return back()->with('error', 'No tienes una suscripción activa.');
-        }
+        // if (! $subscription || ! $subscription->isActive()) {
+        //     return back()->with('error', 'No tienes una suscripción activa.');
+        // }
 
-        try {
-            // Cancelar en Stripe al final del periodo actual
-            StripeSubscription::update($subscription->stripe_subscription_id, [
-                'cancel_at_period_end' => true,
-            ]);
+        // try {
+        //     // Cancelar en Stripe al final del periodo actual
+        //     StripeSubscription::update($subscription->stripe_subscription_id, [
+        //         'cancel_at_period_end' => true,
+        //     ]);
 
-            // Actualizar en BD
-            $subscription->update([
-                'cancelled_at' => now(),
-                'ends_at'      => $subscription->current_period_end,
-            ]);
+        //     // Actualizar en BD
+        //     $subscription->update([
+        //         'cancelled_at' => now(),
+        //         'ends_at'      => $subscription->current_period_end,
+        //     ]);
 
-            Log::info('Suscripción cancelada', ['user_id' => $user->id, 'plan' => $subscription->plan]);
+        //     Log::info('Suscripción cancelada', ['user_id' => $user->id, 'plan' => $subscription->plan]);
 
-            return redirect()->route('main')
-                ->with('success', 'Suscripción cancelada. Mantienes acceso hasta ' . $subscription->ends_at->format('d/m/Y') . '.');
+        //     return redirect()->route('main')
+        //         ->with('success', 'Suscripción cancelada. Mantienes acceso hasta ' . $subscription->ends_at->format('d/m/Y') . '.');
 
-        } catch (\Exception $e) {
-            Log::error('Stripe cancel error: ' . $e->getMessage(), ['user_id' => $user->id]);
-            return back()->with('error', 'No se pudo cancelar. Por favor contáctanos.');
-        }
-    }
+        // } catch (\Exception $e) {
+        //     Log::error('Stripe cancel error: ' . $e->getMessage(), ['user_id' => $user->id]);
+        //     return back()->with('error', 'No se pudo cancelar. Por favor contáctanos.');
+        // }
 
-    /*
-    |--------------------------------------------------------------------------
-    | 3. Webhook de Stripe
-    |--------------------------------------------------------------------------
-    | POST /stripe/webhook  (sin middleware auth ni CSRF)
-    |
-    | En routes/web.php:
-    |   Route::post('/stripe/webhook', [StripeSubscriptionController::class, 'webhook'])
-    |       ->name('stripe.webhook')
-    |       ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
-    |
-    | Eventos manejados:
-    |   invoice.payment_succeeded   → cobro exitoso, renovación
-    |   invoice.payment_failed      → cobro fallido
-    |   customer.subscription.updated  → cambio de estado
-    |   customer.subscription.deleted  → cancelación inmediata
-    */
-    public function webhook(Request $request)
-    {
-        $payload   = $request->getContent();
-        $sigHeader = $request->header('Stripe-Signature');
-        $secret    = config('services.stripe.webhook_secret');
-
-        try {
-            $event = Webhook::constructEvent($payload, $sigHeader, $secret);
-        } catch (SignatureVerificationException $e) {
-            Log::warning('Stripe webhook firma inválida');
-            return response()->json(['error' => 'Invalid signature'], 400);
-        }
-
-        Log::info('Stripe webhook recibido', ['type' => $event->type]);
-
-        match ($event->type) {
-            'invoice.payment_succeeded'        => $this->onInvoicePaid($event->data->object),
-            'invoice.payment_failed'           => $this->onInvoiceFailed($event->data->object),
-            'customer.subscription.updated'    => $this->onSubscriptionUpdated($event->data->object),
-            'customer.subscription.deleted'    => $this->onSubscriptionDeleted($event->data->object),
-            default                            => null,
-        };
-
-        return response()->json(['received' => true]);
+        return Auth::user()->redirectToBillingPortal(route('dashboard'));
     }
 
     /*

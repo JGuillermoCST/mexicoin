@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
+use Laravel\Cashier\Subscription as CashierSubscription;
 
-class Subscription extends Model
+class Subscription extends CashierSubscription
 {
+
     protected $fillable = [
         'user_id',
         'plan',
@@ -50,21 +52,21 @@ class Subscription extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function invoices(): HasMany
-    {
-        return $this->hasMany(SubscriptionInvoice::class);
-    }
+    // public function invoices(): HasMany
+    // {
+    //     return $this->hasMany(SubscriptionInvoice::class);
+    // }
 
     // ── Helpers de estado ───────────────────────────────────────────────────
 
     public function isActive(): bool
     {
-        return in_array($this->status, ['active', 'trialing']);
+        return $this->stripe_status == "active" || $this->stripe_status == 'trialing';
     }
 
     public function isCancelled(): bool
     {
-        return ! is_null($this->cancelled_at);
+        return ! is_null($this->ends_at);
     }
 
     /**
@@ -99,6 +101,13 @@ class Subscription extends Model
     // Alias legible para la fecha del próximo cobro
     public function getNextBillingDateAttribute(): ?Carbon
     {
-        return $this->current_period_end;
+        return $this->asStripeSubscription()->items->data[0]->current_period_end
+            ? Carbon::createFromTimestamp($this->asStripeSubscription()->items->data[0]->current_period_end)
+            : null;
+    }
+
+    public function getPlanNameAttribute(): string
+    {
+        return $this->type;
     }
 }

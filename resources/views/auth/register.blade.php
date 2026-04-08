@@ -26,6 +26,12 @@
                  type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Tu nombre completo">
         </div>
 
+        <div class="mb-4">
+          <label for="last_name" class="block text-sm font-medium text-gray-700">Apellidos</label>
+          <input id="last_name" class="mt-1 w-full rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500" 
+                 type="text" name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name" placeholder="Tus apellidos">
+        </div>
+
         <!-- Email -->
         <div class="mb-4">
           <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
